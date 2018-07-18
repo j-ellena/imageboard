@@ -9,21 +9,42 @@
 
     <!-- ******************************************************************* -->
 
-    <h1>Imageboard</h1>
-    <h3>Latest images</h3>
-    </br>
+    <h1>J'ellena emojiboard</h1>
 
-    <div id="main" v-if="images.length > 0">
 
-       <div class="wrapper" v-for="image in images">
-            <img class="image" :src="image.url" alt="image.url">
+    <div id="main">
+
+
+        <label for="title">Title:</label>
+        <input id="title" type="text" v-model="imageToUpload.title">
+        </br>
+        <label for="description">Description:</label>
+        <input id="description" type="text" v-model="imageToUpload.description">
+        </br>
+        <label for="username">Username:</label>
+        <input id="username" type="text" v-model="imageToUpload.username">
+        </br>
+        <label for="file">Select image</label>
+        <input id="file" type="file" @change="imageSelected">
+        </br>
+        <button @click="upload">Upload!</button>
+
+
+        <h3>Latest images</h3>
+        </br>
+
+
+        <div class="wrapper" v-for="image in images">
+            <img class="image" :key="image.id" :src="image.url" :alt="image.title">
             <p class="title">{{ image.title }}</p>
-       </div>
+        </div>
+
 
    </div>
 
     <!-- ******************************************************************* -->
 
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="/js/vue.js"></script>
     <script src="/js/axios.min.js"></script>
     <script src='/js/script.js'></script>

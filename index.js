@@ -5,9 +5,36 @@ const app = express();
 const bodyParser = require("body-parser");
 const db = require("./sql/db.js");
 
+const multer = require("multer");
+const uidSafe = require("uid-safe");
+const path = require("path");
+
+const s3 = require("./s3");
+const config = require("./config");
+
 // *****************************************************************************
 // middleware
 // *****************************************************************************
+
+const diskStorage = multer.diskStorage({
+    destination: function(req, file, callback) {
+        callback(null, __dirname + "/uploads");
+    },
+    filename: function(req, file, callback) {
+        uidSafe(24).then(function(uid) {
+            callback(null, uid + path.extname(file.originalname));
+        });
+    }
+});
+
+const uploader = multer({
+    storage: diskStorage,
+    limits: {
+        fileSize: 2097152
+    }
+});
+
+const handleFile = uploader.single("file");
 
 app.use(bodyParser.json());
 app.use(express.static(__dirname + "/public"));
@@ -17,9 +44,32 @@ app.use(express.static(__dirname + "/public"));
 // *****************************************************************************
 
 app.get("/images", (req, res) => {
-    db.getImages().then(images => {
+    db.getImages(0).then(images => {
         res.json(images);
     });
+});
+
+// *****************************************************************************
+// post routes
+// *****************************************************************************
+
+app.post("/upload", handleFile, s3.upload, (req, res) => {
+    console.log("app post upload");
+    console.log("req.body: \n", req.body);
+    console.log("req.file: \n", req.file);
+    db.addImage(
+        config.s3Url + req.file.filename,
+        req.body.username,
+        req.body.title,
+        req.body.description
+    )
+        //
+        .then(image => {
+            res.json({
+                success: true,
+                image: image
+            });
+        });
 });
 
 // *****************************************************************************
