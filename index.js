@@ -44,15 +44,15 @@ app.use(express.static(__dirname + "/public"));
 // *****************************************************************************
 
 app.get("/images", (req, res) => {
-    db.getImages(0).then(images => {
-        res.json(images);
-    });
+    db.getImages(0)
+        .then(images => res.json(images))
+        .catch(err => console.log(err));
 });
 
 app.get("/image/:imageId", (req, res) => {
-    db.getImage(req.params.imageId).then(image => {
-        res.json(image);
-    });
+    db.getImage(req.params.imageId)
+        .then(image => res.json(image))
+        .catch(err => console.log(err));
 });
 
 // app.get("/comments/:imageId", (req, res) => {
@@ -65,23 +65,15 @@ app.get("/image/:imageId", (req, res) => {
 // post routes
 // *****************************************************************************
 
-app.post("/upload", handleFile, s3.upload, (req, res) => {
-    console.log("app post upload");
-    console.log("req.body: \n", req.body);
-    console.log("req.file.filename: \n", req.file.filename);
+app.post("/uploadImage", handleFile, s3.upload, (req, res) => {
     db.insertImage(
         config.s3Url + req.file.filename,
         req.body.username,
         req.body.title,
         req.body.description
     )
-        //
-        .then(image => {
-            res.json({
-                success: true,
-                image: image
-            });
-        });
+        .then(image => res.json(image))
+        .catch(err => console.log(err));
 });
 
 // app.post("/comments/:imageId", (req, res) => {});

@@ -15,12 +15,15 @@
         props: ["id"],
         template: "#modal-template",
         mounted: function() {
-            //
             var self = this;
             axios
                 .get("/image/" + this.id)
-                .then(response => (self.imageToModal = response.data))
-                .catch(err => console.log(err));
+                .then(function(response) {
+                    self.imageToModal = response.data;
+                })
+                .catch(function(err) {
+                    console.log(err);
+                });
         },
         methods: {
             changeModal: function(imageId) {
@@ -35,7 +38,6 @@
 
     var app = new Vue({
         el: "#main",
-        //
         data: {
             imageId: null,
             images: [],
@@ -45,36 +47,43 @@
                 username: ""
             }
         },
-        //
-        mounted: function() {
-            var self = this;
-            axios.get("/images").then(function(response) {
-                self.images = response.data;
-            });
-        },
-        //
-        methods: {
-            //
-            changeId: function(imageId) {
-                this.imageId = imageId;
-            },
 
-            imageSelected: function(e) {
-                this.imageFile = e.target.files[0];
-            },
-            upload: function() {
-                var formData = new FormData();
-                formData.append("file", this.imageFile);
-                formData.append("title", this.imageToUpload.title);
-                formData.append("description", this.imageToUpload.description);
-                formData.append("username", this.imageToUpload.username);
-                axios.post("/upload", formData).then(function(res) {
-                    app.images.unshift(res.data.image);
+        mounted: function() {
+            axios
+                .get("/images")
+                .then(function(response) {
+                    app.images = response.data;
+                })
+                .catch(function(err) {
+                    console.log(err);
                 });
-                this.imageFile = "";
-                this.imageToUpload.title = "";
-                this.imageToUpload.description = "";
-                this.imageToUpload.username = "";
+        },
+
+        methods: {
+            changeId: function(imageId) {
+                app.imageId = imageId;
+            },
+            getSelected: function(e) {
+                app.imageFile = e.target.files[0];
+            },
+            uploadImage: function() {
+                var formData = new FormData();
+                formData.append("file", app.imageFile);
+                formData.append("title", app.imageToUpload.title);
+                formData.append("description", app.imageToUpload.description);
+                formData.append("username", app.imageToUpload.username);
+                axios
+                    .post("/uploadImage", formData)
+                    .then(function(res) {
+                        app.images.unshift(res.data);
+                    })
+                    .catch(function(err) {
+                        console.log(err);
+                    });
+                app.imageFile = "";
+                app.imageToUpload.title = "";
+                app.imageToUpload.description = "";
+                app.imageToUpload.username = "";
             }
         }
     });

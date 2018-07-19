@@ -25,9 +25,9 @@
         <input id="username" type="text" v-model="imageToUpload.username">
         </br>
         <label for="file">Select image</label>
-        <input id="file" type="file" @change="imageSelected">
+        <input id="file" type="file" @change="getSelected">
         </br>
-        <button @click="upload">Upload!</button>
+        <button @click="uploadImage">Upload!</button>
 
         <!-- ******************************************************************* -->
 
