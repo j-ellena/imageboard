@@ -8,6 +8,8 @@ if (process.env.DATABASE_URL) {
 }
 
 // *****************************************************************************
+// images queries
+// *****************************************************************************
 
 exports.getImages = function(id) {
     const params = [id];
@@ -24,7 +26,20 @@ exports.getImages = function(id) {
     });
 };
 
-exports.addImage = function(url, username, title, description) {
+exports.getImage = function(id) {
+    const params = [id];
+    const q = `
+            SELECT *
+                FROM images
+                WHERE id = $1;
+            `;
+
+    return db.query(q, params).then(results => {
+        return results.rows[0];
+    });
+};
+
+exports.insertImage = function(url, username, title, description) {
     const params = [url, username, title, description];
     const q = `
             INSERT INTO images (url, username, title, description)
@@ -34,6 +49,36 @@ exports.addImage = function(url, username, title, description) {
 
     return db.query(q, params).then(results => {
         return results.rows[0];
+    });
+};
+
+// *****************************************************************************
+// comments queries
+// *****************************************************************************
+
+exports.insertComment = function(imageId, username, comment) {
+    const params = [imageId, username, comment];
+    const q = `
+            INSERT INTO comments (image_id, username, comment)
+                VALUES ($1, $2, $3)
+            RETURNING *;
+            `;
+
+    return db.query(q, params).then(results => {
+        return results.rows[0];
+    });
+};
+
+exports.getComments = function(imageId) {
+    const params = [imageId];
+    const q = `
+            SELECT *
+                FROM comments
+                WHERE image_id = $1;
+            `;
+
+    return db.query(q, params).then(results => {
+        return results.rows;
     });
 };
 

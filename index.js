@@ -49,6 +49,18 @@ app.get("/images", (req, res) => {
     });
 });
 
+app.get("/image/:imageId", (req, res) => {
+    db.getImage(req.params.imageId).then(image => {
+        res.json(image);
+    });
+});
+
+// app.get("/comments/:imageId", (req, res) => {
+//     db.getComments(req.params.imageId).then(comments => {
+//         res.json(comments);
+//     });
+// });
+
 // *****************************************************************************
 // post routes
 // *****************************************************************************
@@ -56,8 +68,8 @@ app.get("/images", (req, res) => {
 app.post("/upload", handleFile, s3.upload, (req, res) => {
     console.log("app post upload");
     console.log("req.body: \n", req.body);
-    console.log("req.file: \n", req.file);
-    db.addImage(
+    console.log("req.file.filename: \n", req.file.filename);
+    db.insertImage(
         config.s3Url + req.file.filename,
         req.body.username,
         req.body.title,
@@ -71,6 +83,8 @@ app.post("/upload", handleFile, s3.upload, (req, res) => {
             });
         });
 });
+
+// app.post("/comments/:imageId", (req, res) => {});
 
 // *****************************************************************************
 

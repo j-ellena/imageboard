@@ -2,10 +2,42 @@
     //
     console.log("client script");
 
+    // *************************************************************************
+    // component modal
+    // *************************************************************************
+
+    Vue.component("image-modal", {
+        data: function() {
+            return {
+                imageToModal: {}
+            };
+        },
+        props: ["id"],
+        template: "#modal-template",
+        mounted: function() {
+            //
+            var self = this;
+            axios
+                .get("/image/" + this.id)
+                .then(response => (self.imageToModal = response.data))
+                .catch(err => console.log(err));
+        },
+        methods: {
+            changeModal: function(imageId) {
+                this.$emit("unmodalify", imageId);
+            }
+        }
+    });
+
+    // *************************************************************************
+    // main vue
+    // *************************************************************************
+
     var app = new Vue({
         el: "#main",
         //
         data: {
+            imageId: null,
             images: [],
             imageToUpload: {
                 title: "",
@@ -15,24 +47,19 @@
         },
         //
         mounted: function() {
-            console.log("mounted");
             var self = this;
             axios.get("/images").then(function(response) {
-                console.log("axios get");
-
                 self.images = response.data;
             });
         },
-        created: function() {
-            console.log("created");
-        },
-        updated: function() {
-            console.log("updated");
-        },
         //
         methods: {
+            //
+            changeId: function(imageId) {
+                this.imageId = imageId;
+            },
+
             imageSelected: function(e) {
-                console.log("image selected");
                 this.imageFile = e.target.files[0];
             },
             upload: function() {
@@ -42,7 +69,6 @@
                 formData.append("description", this.imageToUpload.description);
                 formData.append("username", this.imageToUpload.username);
                 axios.post("/upload", formData).then(function(res) {
-                    console.log("axios post");
                     app.images.unshift(res.data.image);
                 });
                 this.imageFile = "";

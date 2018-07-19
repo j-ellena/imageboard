@@ -4,17 +4,73 @@
     box-sizing: border-box;
     font-family: "Open Sans", sans-serif;
     color: white;
-    overflow-x: scroll;
+    overflow-x: hidden;
 }
 
 body {
-    background-image: url("../assets/camera.jpg");
+    /* background-image: url("../assets/camera.jpg"); */
+    background-color: darkgrey;
     background-attachment: fixed;
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
     width: 100vw;
     min-height: 100vh;
+}
+
+#modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    border: 1px solid white;
+    border-radius: 5px;
+    padding: 5px;
+    width: auto;
+    height: 80vh;
+}
+
+.modal-image {
+    height: 70vh;
+    width: auto;
+    margin-top: 1vh;
+    margin-left: 1vh;
+    margin-right: 1vh;
+    object-fit: contain;
+    object-position: center;
+    border: 1px solid darkgrey;
+    border-radius: 5px;
+}
+
+.modal-title {
+    height: auto;
+    text-align: center;
+    color: darkgrey;
+}
+
+.modal-description {
+    height: auto;
+    text-align: center;
+    color: darkgrey;
+}
+
+.modal-info {
+    height: auto;
+    text-align: left;
+    color: darkgrey;
 }
 
 h1,
@@ -26,29 +82,41 @@ h3 {
 
 #main {
     display: grid;
+    margin: 3vw 10vw;
+}
+
+#gallery {
+    display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    margin: 10px;
+    grid-gap: 10px;
 }
 
 .wrapper {
+    display: grid;
+    grid-auto-rows: 1fr auto;
     background-color: white;
-    width: 100%;
-    height: 50%;
+    width: 25vw;
+    height: 40vw;
     border: 1px solid white;
     border-radius: 5px;
-    padding: 5px 5px 30px 5px;
+    padding: 5px;
 }
 
 .image {
-    width: 100%;
-    height: 95%;
+    height: 100%;
+    width: 98%;
     object-fit: cover;
+    justify-self: center;
+    border: 1px solid darkgrey;
+    border-radius: 5px;
 }
 
 .title {
+    height: auto;
     text-align: center;
     vertical-align: baseline;
-    color: #553928;
+    /* color: #553928; */
+    color: darkgrey;
 }
 
 #file {
@@ -56,10 +124,12 @@ h3 {
 }
 
 label,
-button {
+button,
+input {
     border: 2px white solid;
     border-radius: 5px;
-    background-color: #553928;
+    /* background-color: #553928; */
+    background-color: darkgrey;
     padding: 5px 10px;
     margin: 5px 10px;
 }
