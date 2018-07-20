@@ -40,44 +40,58 @@ app.use(bodyParser.json());
 app.use(express.static(__dirname + "/public"));
 
 // *****************************************************************************
-// get routes
+// image routes
 // *****************************************************************************
 
-app.get("/images", (req, res) => {
-    db.getImages(0)
+app.get("/images", (req, res) =>
+    db
+        .getImages(0)
         .then(images => res.json(images))
-        .catch(err => console.log(err));
-});
+        .catch(err => console.log("Error db.getImages: \n", err))
+);
 
-app.get("/image/:imageId", (req, res) => {
-    db.getImage(req.params.imageId)
+app.get("/image/:imageId", (req, res) =>
+    db
+        .getImage(req.params.imageId)
         .then(image => res.json(image))
-        .catch(err => console.log(err));
-});
+        .catch(err => console.log("Error db.getImage): \n", err))
+);
 
-// app.get("/comments/:imageId", (req, res) => {
-//     db.getComments(req.params.imageId).then(comments => {
-//         res.json(comments);
-//     });
-// });
-
-// *****************************************************************************
-// post routes
-// *****************************************************************************
-
-app.post("/uploadImage", handleFile, s3.upload, (req, res) => {
-    db.insertImage(
-        config.s3Url + req.file.filename,
-        req.body.username,
-        req.body.title,
-        req.body.description
-    )
-        .then(image => res.json(image))
-        .catch(err => console.log(err));
-});
-
-// app.post("/comments/:imageId", (req, res) => {});
+app.post("/uploadImage", handleFile, s3.upload, (req, res) =>
+    db
+        .insertImage(
+            config.s3Url + req.file.filename,
+            req.body.username,
+            req.body.title,
+            req.body.description
+        )
+        .then(image =>
+            res.json({
+                success: true,
+                image: image
+            })
+        )
+        .catch(err => console.log("Error db.insertImage: \n", err))
+);
 
 // *****************************************************************************
+// comment routes
+// *****************************************************************************
 
-app.listen(8080, () => console.log("...listening"));
+app.get("/comments/:imageId", (req, res) =>
+    db
+        .getComments(req.params.imageId)
+        .then(comments => res.json(comments))
+        .catch(err => console.log("Error db.getComments: \n", err))
+);
+
+app.post("/addComment/:imageId", (req, res) =>
+    db
+        .insertComment(req.params.imageId, req.body.username, req.body.comment)
+        .then(comment => res.json(comment))
+        .catch(err => console.log("Error db.insertComment: \n", err))
+);
+
+// *****************************************************************************
+
+app.listen(process.env.PORT || 8080, () => console.log("...listening"));

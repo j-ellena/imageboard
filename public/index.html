@@ -9,32 +9,37 @@
 
     <!-- ******************************************************************* -->
 
-    <h1>J'ellena emojiboard</h1>
-
 
     <div id="main">
 
+        <h1>J'ellena emojiboard</h1>
 
-        <label for="title">Title:</label>
-        <input id="title" type="text" v-model="imageToUpload.title">
-        </br>
-        <label for="description">Description:</label>
-        <input id="description" type="text" v-model="imageToUpload.description">
-        </br>
-        <label for="username">Username:</label>
-        <input id="username" type="text" v-model="imageToUpload.username">
-        </br>
-        <label for="file">Select image</label>
-        <input id="file" type="file" @change="getSelected">
-        </br>
-        <button @click="uploadImage">Upload!</button>
+        <div id="form-image">
 
-        <!-- ******************************************************************* -->
+            <p>Upload a new image:</p>
+            </br>
+
+            <label for="title">Title:</label>
+            <input id="title" type="text" v-model="imageToUpload.title" placeholder="title">
+            </br>
+            <label for="description">Description:</label>
+            <input id="description" type="text" v-model="imageToUpload.description" placeholder="description">
+            </br>
+            <label for="username">Username:</label>
+            <input id="username" type="text" v-model="imageToUpload.username" placeholder="username">
+            </br>
+            <label for="file">Select image</label>
+            <input id="file" type="file" @change="getSelected">
+            </br>
+            <button @click="uploadImage">Upload!</button>
+        </div>
+
+        <!-- *************************************************************** -->
 
         <h3>Latest images</h3>
         </br>
 
-        <div id="gallery">
+        <div id="gallery" v-if="images.length > 0">
             <div v-for="image in images">
                 <div class="wrapper" @click="changeId(image.id)">
                     <img class="image" :key="image.id" :src="image.url" :alt="image.title">
@@ -43,22 +48,42 @@
             </div>
         </div>
 
-        <image-modal v-if="imageId" :id="imageId" @unmodalify="changeId"><image-modal>
+        <image-modal v-if="imageId" :id_modal="imageId" @unmodalify="changeId"><image-modal>
 
    </div>
 
     <!-- ******************************************************************* -->
 
     <script id="modal-template" type="text/x-template">
-        <div id="modal-overlay" @click="changeModal(null)">
+        <div id="modal-overlay" @click="emitUnmodalify(null)">
 
             <div class="modal-wrapper" v-on:click.stop="">
                 <img class="modal-image" :src="imageToModal.url">
                 <p class="modal-title">{{imageToModal.title}}</p>
                 <p class="modal-description">{{imageToModal.description}}</p>
                 <p class="modal-info">Uploaded by {{imageToModal.username}} on {{imageToModal.created_at}}</p>
-            </div>
 
+                <!-- ******************************************************* -->
+
+                <div id="form-comment">
+                    <label for="comment-text">Comment:</label>
+                    <input id="comment-text" type="text" v-model="commentToUpload.comment" placeholder="comment" required>
+                    <label for="comment-user">Username:</label>
+                    <input id="comment-user" type="text" v-model="commentToUpload.username" placeholder="username" required>
+                    <button @click="addComment">Post</button>
+                </div>
+
+                <!-- ******************************************************* -->
+
+                <div id="modal-comments" v-if="comments.length > 0">
+                    <div v-for="comment in comments">
+                        <div class="comments-wrapper">
+                            <p class="comment-text">{{ comment.comment }}</p>
+                            <p class="comment-info">by {{ comment.username }} on {{ comment.created_at }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
     </script>

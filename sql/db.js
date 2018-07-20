@@ -11,13 +11,30 @@ if (process.env.DATABASE_URL) {
 // images queries
 // *****************************************************************************
 
+// exports.getFirst = function(id) {
+//     const params = [id];
+//     const q = `
+//             SELECT *, (
+//                 SELECT id FROM images
+//                 ORDER BY id ASC LIMIT 1)
+//             as first_id FROM images
+//             WHERE id < $1
+//             ORDER BY id DESC
+//             LIMIT 6;
+//             `;
+//
+//     return db.query(q, params).then(results => {
+//         return results.rows;
+//     });
+// };
+
 exports.getImages = function(id) {
     const params = [id];
     const q = `
             SELECT *
                 FROM images
                 WHERE id > $1
-                ORDER BY created_at DESC
+                ORDER BY id DESC
                 LIMIT 12;
             `;
 
@@ -74,7 +91,9 @@ exports.getComments = function(imageId) {
     const q = `
             SELECT *
                 FROM comments
-                WHERE image_id = $1;
+                WHERE image_id = $1
+                ORDER BY id DESC
+                LIMIT 6;
             `;
 
     return db.query(q, params).then(results => {
