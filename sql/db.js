@@ -11,33 +11,15 @@ if (process.env.DATABASE_URL) {
 // images queries
 // *****************************************************************************
 
-// exports.getFirst = function(id) {
-//     const params = [id];
-//     const q = `
-//             SELECT *, (
-//                 SELECT id FROM images
-//                 ORDER BY id ASC LIMIT 1)
-//             as first_id FROM images
-//             WHERE id < $1
-//             ORDER BY id DESC
-//             LIMIT 6;
-//             `;
-//
-//     return db.query(q, params).then(results => {
-//         return results.rows;
-//     });
-// };
-
-exports.getImages = function(id) {
-    const params = [id];
+exports.getImages = function(offset) {
+    const params = [offset];
     const q = `
-            SELECT *
-                FROM images
-                WHERE id > $1
-                ORDER BY id DESC
-                LIMIT 12;
+            SELECT * FROM (
+                SELECT * FROM images ORDER BY id DESC)
+                AS results
+                LIMIT 12
+                OFFSET $1
             `;
-
     return db.query(q, params).then(results => {
         return results.rows;
     });
@@ -46,7 +28,13 @@ exports.getImages = function(id) {
 exports.getImage = function(id) {
     const params = [id];
     const q = `
-            SELECT *
+            SELECT *,
+                (SELECT id FROM images WHERE id < $1
+                    ORDER BY id DESC LIMIT 1)
+                    as older,
+                (SELECT id FROM images WHERE id > $1
+                    ORDER BY id ASC LIMIT 1)
+                    as newer
                 FROM images
                 WHERE id = $1;
             `;
@@ -66,6 +54,17 @@ exports.insertImage = function(url, username, title, description) {
 
     return db.query(q, params).then(results => {
         return results.rows[0];
+    });
+};
+
+exports.deleteImage = function(id) {
+    const params = [id];
+    const q = `
+            DELETE FROM images
+                WHERE id = $1;
+            `;
+    return db.query(q, params).then(() => {
+        return "Image successfully deleted.";
     });
 };
 
@@ -98,6 +97,17 @@ exports.getComments = function(imageId) {
 
     return db.query(q, params).then(results => {
         return results.rows;
+    });
+};
+
+exports.deleteComment = function(id) {
+    const params = [id];
+    const q = `
+            DELETE FROM comments
+                WHERE id = $1;
+            `;
+    return db.query(q, params).then(() => {
+        return "Comment successfully deleted.";
     });
 };
 

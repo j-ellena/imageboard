@@ -2,20 +2,214 @@
     margin: 0;
     outline: 0;
     box-sizing: border-box;
-    font-family: "Open Sans", sans-serif;
+    font-family: "Quattrocento", serif;
     color: white;
     overflow-x: hidden;
 }
 
 body {
-    /* background-image: url("../assets/camera.jpg"); */
-    background-color: darkgrey;
+    background-image: url("../assets/eh.jpg");
     background-attachment: fixed;
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
     width: 100vw;
     min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#meme {
+    width: 100vw;
+    height: 5vw;
+    background-color: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#meme h1 {
+    font-family: "Impact", Charcoal, sans-serif;
+    font-size: 3vw;
+}
+
+#heading {
+    background-image: url("../assets/day.jpg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    height: 35vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-align: center;
+}
+
+#heading h1 {
+    font-family: "Impact", Charcoal, sans-serif;
+    font-size: 3vw;
+    letter-spacing: 1px;
+    word-spacing: 5px;
+    margin-top: 0.5vw;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000,
+        1px 1px 0 #000;
+}
+
+#heading h6 {
+    font-size: 2vw;
+    margin: 1vw 2vw;
+    color: #94764a;
+    text-shadow: -0.5px -0.5px 0 #94764a, 0.5px -0.5px 0 #94764a,
+        -0.5px 0.5px 0 #94764a, 0.5px 0.5px 0 #94764a;
+}
+
+#main {
+    display: grid;
+}
+
+#main > h3 {
+    margin: 0vw 30vw;
+    font-size: 3vw;
+    text-shadow: -0.5px -0.5px 0 #fff, 0.5px -0.5px 0 #fff, -0.5px 0.5px 0 #fff,
+        0.5px 0.5px 0 #fff;
+    text-align: center;
+}
+
+#form-image {
+    margin: 1vw 11.5vw;
+    display: grid;
+    grid-template-columns: 1fr 3fr 1fr;
+    grid-template-rows: auto auto auto auto;
+    grid-template-areas:
+        "grid-heading grid-heading      grid-heading"
+        "label-file   input-username    grid-button"
+        "label-file   input-title       grid-button"
+        "label-file   input-description grid-button";
+    justify-content: center;
+    align-content: center;
+}
+
+#form-image h3 {
+    grid-area: grid-heading;
+    font-size: 2.5vw;
+    text-shadow: -1px -1px 0 #94764a, 1px -1px 0 #94764a, -1px 1px 0 #94764a,
+        1px 1px 0 #94764a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+label[for="file"] {
+    grid-area: label-file;
+    border: 2px white solid;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.5vw;
+    align-self: center;
+    justify-self: center;
+    margin: 1vw;
+    padding: 1vw;
+    text-shadow: -0.5px -0.5px 0 #fff, 0.5px -0.5px 0 #fff, -0.5px 0.5px 0 #fff,
+        0.5px 0.5px 0 #fff;
+}
+
+label[for="file"]:hover {
+    background-color: white;
+    color: #94764a;
+    text-shadow: -0.5px -0.5px 0 #94764a, 0.5px -0.5px 0 #94764a,
+        -0.5px 0.5px 0 #94764a, 0.5px 0.5px 0 #94764a;
+}
+
+#title {
+    grid-area: input-title;
+}
+#description {
+    grid-area: input-description;
+}
+#username {
+    grid-area: input-username;
+}
+#file {
+    transform: translateX(-3000px);
+}
+#form-image button {
+    grid-area: grid-button;
+    cursor: pointer;
+    border: 2px white solid;
+    border-radius: 5px;
+    background-color: white;
+    align-self: center;
+    justify-self: center;
+    color: #94764a;
+    padding: 1vw 1vw;
+    margin: 1vw 1vw;
+    letter-spacing: 1px;
+    font-size: 2.5vw;
+    text-shadow: -1px -1px 0 #94764a, 1px -1px 0 #94764a, -1px 1px 0 #94764a,
+        1px 1px 0 #94764a;
+}
+#form-image button:hover {
+    color: white;
+    background: none;
+    text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff,
+        1px 1px 0 #fff;
+}
+#form-image input {
+    cursor: pointer;
+    border: 2px white solid;
+    border-radius: 5px;
+    background-color: white;
+    color: #94764a;
+    padding: 5px 10px;
+    margin: 3px 10px;
+    font-size: 1.5vw;
+}
+#form-image input::-webkit-input-placeholder {
+    color: #94764a;
+}
+
+#gallery {
+    margin: 0 3vw 3vw 3vw;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 2vw;
+    justify-content: center;
+    align-content: center;
+}
+
+.wrapper {
+    display: grid;
+    grid-auto-rows: 1fr auto;
+    background-color: white;
+    width: 30vw;
+    height: 40vw;
+    border: 1px solid white;
+    border-radius: 5px;
+    justify-content: center;
+    align-content: center;
+}
+
+.image {
+    width: 28vw;
+    border: 1px solid #94764a;
+    border-radius: 5px;
+    margin: 1vw 1vw 0.5vw 1vw;
+}
+
+.image img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    justify-self: center;
+}
+
+.title {
+    height: auto;
+    text-align: center;
+    padding: 0vw 0.5vw 0.5vw 0.5vw;
+    color: #94764a;
 }
 
 #modal-overlay {
@@ -24,138 +218,259 @@ body {
     left: 0;
     bottom: 0;
     right: 0;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.7);
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
 .modal-wrapper {
-    display: flex;
-    flex-direction: column;
+    height: 95vh;
+    width: auto;
+    display: grid;
+    grid-template-columns: 1fr;
     justify-content: center;
-    align-items: center;
+    align-content: center;
     background-color: white;
     border: 1px solid white;
     border-radius: 5px;
-    padding: 5px;
-    width: auto;
-    height: 80vh;
+    padding: 0.5vh;
 }
 
 .modal-image {
-    height: 70vh;
+    height: 50vh;
     width: auto;
-    margin-top: 1vh;
-    margin-left: 1vh;
-    margin-right: 1vh;
+    justify-self: center;
+    align-self: center;
+}
+
+.modal-image img {
+    height: 100%;
+    width: auto;
     object-fit: contain;
     object-position: center;
-    border: 1px solid darkgrey;
+    border: 1px solid #94764a;
     border-radius: 5px;
+}
+
+.modal-area {
+    align-self: center;
+    justify-self: center;
+    width: 50vh;
+    padding: 0.1vh 0.5vh 0vh 0.5vh;
+    margin-bottom: 0vh;
+    display: grid;
+    grid-template-columns: 5fr 1fr;
+    grid-template-rows: auto auto auto;
+    grid-template-areas:
+        "area-title       area-button"
+        "area-description area-button"
+        "area-info        area-button";
+    justify-content: center;
+    align-items: center;
 }
 
 .modal-title {
-    height: auto;
-    text-align: center;
-    color: darkgrey;
+    grid-area: area-title;
+    font-size: 2.5vh;
+    padding: 0.5vh;
+    color: #94764a;
 }
 
 .modal-description {
-    height: auto;
-    text-align: center;
-    color: darkgrey;
+    grid-area: area-description;
+    font-size: 1.5vh;
+    padding: 0.5vh;
+    color: #94764a;
 }
 
 .modal-info {
-    height: auto;
-    text-align: left;
-    color: darkgrey;
+    grid-area: area-info;
+    font-size: 1vh;
+    padding: 0.5vh;
+    color: #94764a;
 }
 
-h1,
-h3 {
-    text-align: center;
-    vertical-align: center;
-    padding: 10px;
-}
-
-#main {
-    display: grid;
-    margin: 3vw 10vw;
-}
-
-#gallery {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-gap: 10px;
-}
-
-.wrapper {
-    display: grid;
-    grid-auto-rows: 1fr auto;
+.modal-area > button {
+    grid-area: area-button;
+    cursor: pointer;
+    border: 2px solid #94764a;
+    border-radius: 5px;
     background-color: white;
-    width: 25vw;
-    height: 40vw;
-    border: 1px solid white;
-    border-radius: 5px;
-    padding: 5px;
-}
-
-.image {
-    height: 100%;
-    width: 98%;
-    object-fit: cover;
+    align-self: center;
     justify-self: center;
-    border: 1px solid darkgrey;
-    border-radius: 5px;
+    color: #94764a;
+    padding: 1vh 1vh;
+    margin: 1vh 1vh;
+    letter-spacing: 1px;
+    font-size: 2vh;
+    text-shadow: -0.5px -0.5px 0 #94764a, 0.5px -0.5px 0 #94764a,
+        -0.5px 0.5px 0 #94764a, 0.5px 0.5px 0 #94764a;
+}
+.modal-area > button:hover {
+    color: white;
+    background: #94764a;
+    text-shadow: -0.5px -0.5px 0 #fff, 0.5px -0.5px 0 #fff, -0.5px 0.5px 0 #fff,
+        0.5px 0.5px 0 #fff;
 }
 
-.title {
-    height: auto;
+#form-comment {
+    align-self: center;
+    justify-self: center;
+    width: 50vh;
+    padding: 0.1vh 0.5vh 0vh 0.5vh;
+    margin-top: 0vh;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-rows: auto auto auto;
+    grid-template-areas:
+        "comment-message  ."
+        "comment-text     comment-button"
+        "comment-user     comment-button";
+    justify-content: center;
+    align-items: center;
+}
+
+#form-comment h4 {
+    grid-area: comment-message;
     text-align: center;
-    vertical-align: baseline;
-    /* color: #553928; */
-    color: darkgrey;
+    font-size: 1.5vh;
+    margin-bottom: 0.1vh;
+    color: #94764a;
+    text-shadow: -0.5px -0.5px 0 #94764a, 0.5px -0.5px 0 #94764a,
+        -0.5px 0.5px 0 #94764a, 0.5px 0.5px 0 #94764a;
 }
 
-#file {
-    transform: translateX(-3000px);
+#comment-text {
+    grid-area: comment-text;
+}
+
+#comment-user {
+    grid-area: comment-user;
+}
+
+#form-comment input {
+    cursor: pointer;
+    border: 2px #94764a solid;
+    border-radius: 5px;
+    background-color: white;
+    color: #94764a;
+    padding: 0.1vh 0.1vh 0.1vh 0.1vh;
+    margin: 0.1vh 1.5vh 0.1vh 0.1vh;
+    font-size: 1.5vh;
+}
+
+#form-comment input::-webkit-input-placeholder {
+    color: #94764a;
+}
+
+#form-comment button {
+    grid-area: comment-button;
+    cursor: pointer;
+    border: 2px #94764a solid;
+    border-radius: 5px;
+    background-color: white;
+    color: #94764a;
+    margin: 0.1vh 0.1vh 0.1vh 0.1vh;
+    letter-spacing: 1px;
+    font-size: 2.5vh;
+    text-shadow: -0.5px -0.5px 0 #94764a, 0.5px -0.5px 0 #94764a,
+        -0.5px 0.5px 0 #94764a, 0.5px 0.5px 0 #94764a;
+}
+
+#form-comment button:hover {
+    color: white;
+    background: #94764a;
+    text-shadow: -0.5px -0.5px 0 #fff, 0.5px -0.5px 0 #fff, -0.5px 0.5px 0 #fff,
+        0.5px 0.5px 0 #fff;
 }
 
 #modal-comments {
-    width: 100%;
+    align-self: center;
+    justify-self: center;
+    display: grid;
+    width: 50vh;
 }
 
 .comments-wrapper {
-    width: auto;
+    align-self: center;
+    justify-self: center;
+    width: 50vh;
+    padding: 0.1vh 0.5vh 0vh 0.5vh;
+    margin: 0.1vh 0.1vh 0.1vh 0.1vh;
     border: 2px white solid;
     border-radius: 5px;
-    /* background-color: #553928; */
-    background-color: darkgrey;
-    padding: 5px 10px;
-    margin: 10px 35px;
+    background-color: #94764a;
+    display: grid;
+    grid-template-columns: 5fr 1fr;
+    grid-template-rows: auto auto;
+    grid-template-areas:
+        "grid-text     delete-post"
+        "grid-info     delete-post";
+    justify-content: center;
+    align-items: center;
 }
 
-label,
-button,
-input {
+.comment-text {
+    grid-area: grid-text;
+    font-size: 1.5vh;
+    padding: 0.5vh;
+}
+.comment-info {
+    grid-area: grid-info;
+    font-size: 1vh;
+    padding: 0.5vh;
+}
+
+.comments-wrapper button {
+    grid-area: delete-post;
+    border-radius: 5px;
+    color: #94764a;
+}
+
+#message {
     border: 2px white solid;
     border-radius: 5px;
-    /* background-color: #553928; */
-    background-color: darkgrey;
+    background-color: #94764a;
     padding: 5px 10px;
     margin: 5px 10px;
 }
 
-@media (max-width: 850px) {
-    #main {
-        grid-template-columns: 1fr 1fr;
+@media (min-width: 1000px) {
+    #gallery {
+        margin: 0 2vw 3vw 2vw;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        grid-gap: 2vw;
+    }
+    .wrapper {
+        width: 22.5vw;
+        height: 30vw;
+    }
+    .image {
+        width: 20.5vw;
     }
 }
 
 @media (max-width: 500px) {
-    #main {
-        grid-template-columns: 1fr;
+    #heading h6,
+    #form-image h3,
+    label[for="file"],
+    label[for="file"]:hover,
+    #form-image button,
+    #form-image button:hover,
+    #main > h3 {
+        text-shadow: 0 0 0 #fff, 0 0 0 #fff, 0 0 0 #fff, 0 0 0 #fff;
+    }
+    #gallery {
+        margin: 0 3.5vw 3vw 3.5vw;
+        grid-template-columns: 1fr 1fr;
+        grid-gap: 3vw;
+    }
+    .wrapper {
+        width: 45vw;
+        height: 60vw;
+    }
+    .image {
+        width: 44vw;
     }
 }

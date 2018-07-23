@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>Emojiboard</title>
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Quattrocento" rel="stylesheet">
     <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
@@ -10,28 +10,35 @@
     <!-- ******************************************************************* -->
 
 
-    <div id="main">
+    <div id="meme">
+        <h1>
+            4,000 YEARS LATER AND WE ARE BACK TO THE SAME LANGUAGE
+        </h1>
+    </div>
 
-        <h1>J'ellena emojiboard</h1>
+    <div id="heading">
+        <h1>J'ellena's Emojiboard</h1>
+        <h6>World Emoji Day falls on July 17
+            as it is the date displayed on the calendar emoji.
+        </h6>
+    </div>
+
+
+    <div id="main">
 
         <div id="form-image">
 
-            <p>Upload a new image:</p>
-            </br>
+            <h3>Join me in my quest to collect all emojis! Please, upload a new one:</h3>
 
-            <label for="title">Title:</label>
-            <input id="title" type="text" v-model="imageToUpload.title" placeholder="title">
-            </br>
-            <label for="description">Description:</label>
-            <input id="description" type="text" v-model="imageToUpload.description" placeholder="description">
-            </br>
-            <label for="username">Username:</label>
-            <input id="username" type="text" v-model="imageToUpload.username" placeholder="username">
-            </br>
             <label for="file">Select image</label>
+
+            <input id="username" type="text" v-model="imageToUpload.username" maxlength="50" placeholder="Username">
+            <input id="title" type="text" v-model="imageToUpload.title" maxlength="255" placeholder="Title">
+            <input id="description" type="text" v-model="imageToUpload.description" maxlength="255" placeholder="Description">
             <input id="file" type="file" @change="getSelected">
-            </br>
+
             <button @click="uploadImage">Upload!</button>
+
         </div>
 
         <!-- *************************************************************** -->
@@ -39,47 +46,60 @@
         <h3>Latest images</h3>
         </br>
 
-        <div id="gallery" v-if="images.length > 0">
+        <div id="gallery" v-if="images.length">
             <div v-for="image in images">
-                <div class="wrapper" @click="changeId(image.id)">
-                    <img class="image" :key="image.id" :src="image.url" :alt="image.title">
+                <div class="wrapper" @click="openModal(image.id)">
+                    <div class="image">
+                        <img :key="image.id" :src="image.url" :alt="image.title">
+                    </div>
                     <p class="title">{{ image.title }}</p>
                 </div>
             </div>
         </div>
 
-        <image-modal v-if="imageId" :id_modal="imageId" @unmodalify="changeId"><image-modal>
+        <image-modal v-if="imageId" :id="imageId" @unmodalify="closeModal"><image-modal>
 
    </div>
 
     <!-- ******************************************************************* -->
 
     <script id="modal-template" type="text/x-template">
-        <div id="modal-overlay" @click="emitUnmodalify(null)">
+        <div id="modal-overlay" @click="emitUnmodalify">
 
             <div class="modal-wrapper" v-on:click.stop="">
-                <img class="modal-image" :src="imageToModal.url">
-                <p class="modal-title">{{imageToModal.title}}</p>
-                <p class="modal-description">{{imageToModal.description}}</p>
-                <p class="modal-info">Uploaded by {{imageToModal.username}} on {{imageToModal.created_at}}</p>
 
-                <!-- ******************************************************* -->
+                <div id="message" v-if="message">{{ message }}</div>
+                <!-- <a id="newer" :href=`/#${image.newer}`>Newer</a>
+                <a id="older" :href=`/#${image.older}`>Older</a> -->
 
-                <div id="form-comment">
-                    <label for="comment-text">Comment:</label>
-                    <input id="comment-text" type="text" v-model="commentToUpload.comment" placeholder="comment" required>
-                    <label for="comment-user">Username:</label>
-                    <input id="comment-user" type="text" v-model="commentToUpload.username" placeholder="username" required>
-                    <button @click="addComment">Post</button>
+                <div class="modal-image">
+                    <img :src="imageToModal.url">
+                </div>
+                <div class="modal-area">
+                    <div class="modal-title">{{imageToModal.title}}</div>
+                    <div class="modal-description">{{imageToModal.description}}</div>
+                    <div class="modal-info">Uploaded by {{imageToModal.username}} on {{imageToModal.created_at}}</div>
+                    <button @click="deleteImage">Delete image</button>
                 </div>
 
                 <!-- ******************************************************* -->
 
-                <div id="modal-comments" v-if="comments.length > 0">
+                <div id="form-comment">
+                    <h4>You're welcome to leave a comment:</h4>
+                    </br>
+                    <input id="comment-text" type="text" v-model="commentToUpload.comment" placeholder="Comment" required>
+                    <input id="comment-user" type="text" v-model="commentToUpload.username" placeholder="Username" required>
+                    <button @click="addComment">Post</br>comment!</button>
+                </div>
+
+                <!-- ******************************************************* -->
+
+                <div id="modal-comments" v-if="comments.length">
                     <div v-for="comment in comments">
                         <div class="comments-wrapper">
                             <p class="comment-text">{{ comment.comment }}</p>
                             <p class="comment-info">by {{ comment.username }} on {{ comment.created_at }}</p>
+                            <button @click="deleteComment(comment.id)">Delete comment</button>
                         </div>
                     </div>
                 </div>

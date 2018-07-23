@@ -45,7 +45,7 @@ app.use(express.static(__dirname + "/public"));
 
 app.get("/images", (req, res) =>
     db
-        .getImages(0)
+        .getImages(req.query.offset)
         .then(images => res.json(images))
         .catch(err => console.log("Error db.getImages: \n", err))
 );
@@ -74,6 +74,13 @@ app.post("/uploadImage", handleFile, s3.upload, (req, res) =>
         .catch(err => console.log("Error db.insertImage: \n", err))
 );
 
+app.post("/deleteImage/:imageId", (req, res) =>
+    db
+        .deleteImage(req.params.imageId)
+        .then(message => res.json(message))
+        .catch(err => console.log("Error db.deleteImage: \n", err))
+);
+
 // *****************************************************************************
 // comment routes
 // *****************************************************************************
@@ -90,6 +97,13 @@ app.post("/addComment/:imageId", (req, res) =>
         .insertComment(req.params.imageId, req.body.username, req.body.comment)
         .then(comment => res.json(comment))
         .catch(err => console.log("Error db.insertComment: \n", err))
+);
+
+app.post("/deleteComment/:imageId/:commentId", (req, res) =>
+    db
+        .deleteComment(req.params.commentId)
+        .then(message => res.json(message))
+        .catch(err => console.log("Error db.deleteComment: \n", err))
 );
 
 // *****************************************************************************
